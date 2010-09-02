@@ -1,6 +1,7 @@
 from datetime import date, datetime, timedelta
 from rpy2 import rinterface
 from rpy2.robjects import r,numpy2ri
+from rpy2 import robjects
 
 
 class RException(Exception):
@@ -39,6 +40,19 @@ class rpyobject(object):
 rdate0 = date(1970,1,1)
 py2rdate = lambda x : (x-rdate0).days
 r2pydate = lambda x : rdate0 + timedelta(days = int(x))
+
+def to_rvec(iter, typ):
+    if typ == 'int':
+        robj =  robjects.IntVector
+    elif typ == 'str':
+        robj =  robjects.StrVector
+    else:
+        msg = "Type %s is not recognised"
+        raise ValueError(msg %typ)
+    
+    rt = robj(tuple(iter))
+    return rt
+
 
 def isoformat(dte):
     if isinstance(dte,datetime):

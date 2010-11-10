@@ -46,6 +46,8 @@ def to_rvec(iter, typ):
         robj =  robjects.IntVector
     elif typ == 'str':
         robj =  robjects.StrVector
+    elif typ == 'flt':
+        robj =  robjects.FloatVector        
     else:
         msg = "Type %s is not recognised"
         raise ValueError(msg %typ)

@@ -18,7 +18,8 @@ class StringParser(object):
                 val = None
             if not val is None:
                 return val
-        return str.strip()
+        result = str.strip()
+        return result
 
 from misc import to_float
 from date import get_dt_convert_fn
@@ -53,7 +54,8 @@ def load_csv_dict(path, dt_fmt = 'UK', heading_row=0):
     for row in reader:
         tmp = {}
         for k , v in row.items():
-            tmp[k] = parser.parse(v)
+            if not k=='':
+                tmp[k] = parser.parse(v)
         rt.append(tmp)
     f.close()
     return rt 

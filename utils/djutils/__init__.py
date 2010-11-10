@@ -1,6 +1,6 @@
 import re
 from django.utils.safestring import mark_safe
-
+#from django_bulk_save import DeferredBucket
 
 
 def django_choices(vals):
@@ -93,4 +93,5 @@ def slugify(value, rtx = '-'):
     and converts spaces to hyphens.
     """
     value = unicode(re.sub('[^\w\s-]', '', value).strip())
+    result = re.sub('[-\s]+', rtx, value)
     return mark_safe(re.sub('[-\s]+', rtx, value))

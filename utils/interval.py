@@ -8,8 +8,8 @@ class Interval(object):
             sdt = dt_or_period
         else:
             p = period(dt_or_period)
-            newdt = edt - datetime.timedelta(days = p.totaldays)
-            sdt = prevbizday(newdt, 0)
+            dys = p.totaldays
+            sdt = prevbizday(edt, dys)
         
         self._start_dt = sdt
         self._end_dt = edt

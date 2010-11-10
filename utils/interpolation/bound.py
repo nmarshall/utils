@@ -100,9 +100,9 @@ def bound(x, values, cmp=operator.lt):
   count = len(values)
   left, right = equal_range(x, values, cmp)
   if left == count:
-    raise RuntimeError, "%f lies right of the domain" % x
+    raise ValueError, "%f lies right of the domain" % x
   elif right == 0:
-    raise RuntimeError, "%s lies left of the domain" % x
+    raise ValueError, "%s lies left of the domain" % x
 
   if right == count: right -= 1
   if left == right:   left -= 1

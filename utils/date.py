@@ -52,12 +52,7 @@ def fromYYYYMMDD(yyyymmdd):
     rt = datetime.date(yr, mo, dy)
     return rt
 
-def toYYYYMMDD(dt):
-    yr = dt.year
-    mo = dt.month
-    dy = dt.day
-    rt = '%s%s%s' %(yr, mo, dy)
-    return rt
+toYYYYMMDD  = lambda dt : dt.strftime('%Y%m%d')    
 
 date2timestamp = lambda dte : int(time.mktime(dte.timetuple()))
 
@@ -109,3 +104,32 @@ def to_datetime(dt):
     return rt
 
 #===============================
+
+def eom_dt(dt, number_months):
+    month = dt.month
+    yr = dt.year
+    if number_months == 0:
+        new_month = month + 1
+        if new_month ==13:
+            new_month = 1
+            yr += 1
+    elif number_months < 0:
+        new_month = month
+        number_months += 1 
+    
+    elif number_months > 0:
+        new_month = month + 2
+        if new_month >12:
+            yr += new_month // 12
+            new_month = new_month % 12
+        number_months -= 1
+    else:
+        raise ValueError("This should never happen")
+    
+    dt = datetime.date(yr, new_month, 1)
+    dt -= datetime.timedelta(days = 1)
+    if number_months:
+        return eom_dt(dt, number_months)
+    else:
+        return dt
+        

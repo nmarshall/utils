@@ -9,8 +9,9 @@ class csvLoader(object):
     Loader = None
     
     cleaners = {}
+    row_cleaners = []
     
-    def __init__(self, path, heading_mappings, dt_fmt = 'UK', loader = None, heading_indx_row = 0):
+    def __init__(self, path, heading_mappings, dt_fmt = 'UK', loader = None, heading_indx_row = 0, **kwargs):
         self._loader = loader or self.Loader()
         
         data = load_csv_dict(path, dt_fmt, heading_indx_row)
@@ -20,14 +21,20 @@ class csvLoader(object):
         self._data = translated_data
         self._result = None
     
+    def _clean_row(self, row):
+        row_cleaners = self.row_cleaners
+        for cleaner in row_cleaners:
+            cleaner(row)
+        
     def _clean_data(self, data):
         '''
         responsible for changing variable values as required
         it uses a dictionary of form { variable_name : clean_function ..}
         '''
         cleaners = self.cleaners
-        for attr, fn in cleaners.items():
-            for row in data:
+        for row in data:
+            self._clean_row(row)
+            for attr, fn in cleaners.items():
                 val = row[attr]
                 clean_val = fn(val)
                 row[attr] = clean_val                

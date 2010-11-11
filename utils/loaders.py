@@ -12,7 +12,7 @@ class csvLoader(object):
     row_cleaners = []
     
     def __init__(self, path, heading_mappings, dt_fmt = 'UK', loader = None, heading_indx_row = 0, **kwargs):
-        self._loader = loader or self.Loader()
+        self._loader = loader or self.Loader(**kwargs)
         
         data = load_csv_dict(path, dt_fmt, heading_indx_row)
         translated_data = self._translate_data(data, heading_mappings)
